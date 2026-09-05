@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django_ckeditor_5.fields import CKEditor5Field
 
 
 class Category(models.Model):
@@ -11,7 +12,7 @@ class Category(models.Model):
 
 class News(models.Model):
     title = models.CharField(max_length=200)
-    description = models.TextField()
+    description = CKEditor5Field('Description', config_name='extends')
     image = models.ImageField(upload_to='news/')
     author = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, blank=True)

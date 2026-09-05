@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'news',
+    'django_ckeditor_5',
 ]
 
 MIDDLEWARE = [
@@ -133,3 +134,23 @@ MAILERS = {
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
+
+CKEDITOR_5_CONFIGS = {
+    'extends': {
+        'toolbar': [
+            'heading',
+            '|',
+            'bold',
+            'italic',
+            'link',
+            'bulletedList',
+            'numberedList',
+            '|',
+            'imageUpload',
+            'blockQuote',
+            'insertTable',
+            'undo',
+            'redo',
+        ],
+    },
+}
