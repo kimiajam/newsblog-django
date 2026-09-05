@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import News
+from .models import News, Category
 
 
 def home(request):
@@ -10,24 +10,32 @@ def home(request):
     africa = News.objects.filter(category__name='Africa')
     asia = News.objects.filter(category__name='Asia')
 
+    categories = Category.objects.all()
+
     return render(request, 'index.html', {
         'news': news,
         'europe': europe,
         'american': american,
         'africa': africa,
         'asia': asia,
+        'categories': categories,
     })
 
 def news_detail(request, id):
     news = News.objects.get(id=id)
+    categories = Category.objects.all()
 
     return render(request, 'single.html', {
         'news': news,
+        'categories': categories,
     })
+
 
 def category(request, id):
     news = News.objects.filter(category_id=id).order_by('-created_at')
+    categories = Category.objects.all()
 
     return render(request, 'category.html', {
         'news': news,
+        'categories': categories,
     })
