@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import News, Category
+from .models import News, Category, Comment
 
 
 def home(request):
@@ -24,10 +24,25 @@ def home(request):
 def news_detail(request, id):
     news = News.objects.get(id=id)
     categories = Category.objects.all()
+    popular_news = News.objects.all().order_by('-created_at')
+
+    if request.method == 'POST':
+        name = request.POST.get('name')
+        email = request.POST.get('email')
+        text = request.POST.get('text')
+
+        if name and email and text:
+            Comment.objects.create(
+                news=news,
+                name=name,
+                email=email,
+                text=text,
+            )
 
     return render(request, 'single.html', {
         'news': news,
         'categories': categories,
+        'popular_news': popular_news,
     })
 
 
@@ -35,11 +50,13 @@ def category(request, id):
     news = News.objects.filter(category_id=id).order_by('-created_at')
     categories = Category.objects.all()
     current_category = Category.objects.get(id=id)
+    popular_news = News.objects.all().order_by('-created_at')
 
     return render(request, 'category.html', {
         'news': news,
         'categories': categories,
         'current_category': current_category,
+        'popular_news': popular_news,
     })
 
 def author(request, id):

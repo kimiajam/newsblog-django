@@ -128,147 +128,122 @@ License: You must have a valid license from official store to legally use the th
                 
                 <!-- author -->
                 <div class="flex flex-wrap flex-row -mx-4 justify-center py-4">
-                  <div class="flex-shrink max-w-full px-4 w-1/3 sm:w-1/4 md:w-1/6">
-                    <a href="#"><img class="rounded-full border max-w-full h-auto dark:border-gray-700" src="src/img/dummy/avatar.jpg" alt="author"></a>
-                  </div>
-                  <div class="flex-shrink max-w-full px-4 w-2/3 sm:w-3/4 md:w-10/12">
-                    <!--name-->
-                    <p class="text-lg leading-normal mb-2 font-semibold text-gray-800 dark:text-gray-100">
-                      <span class="font-semibold">Ari budin</span>
-                    </p>
-                    <!-- website -->
-                    <p class="mb-1"><a target="_blank" class="text-red-700" href="#">https://aribudin.com</a></p>
-                    <!--description-->
-                    <p>Programmer, Father, Husband, I design and develop Bootstrap template</p>
-                  </div>
+
+                    <div class="flex-shrink max-w-full px-4 w-1/3 sm:w-1/4 md:w-1/6">
+                        <a href="{% url 'author' news.author.id %}">
+                            {% if news.author.profile.image %}
+                                <img class="rounded-full border max-w-full h-auto dark:border-gray-700"
+                                    src="{{ news.author.profile.image.url }}"
+                                    alt="{{ news.author.username }}">
+                            {% else %}
+                                <img class="rounded-full border max-w-full h-auto dark:border-gray-700"
+                                    src="{% static 'img/dummy/avatar.jpg' %}"
+                                    alt="{{ news.author.username }}">
+                            {% endif %}
+                        </a>
+                    </div>
+
+                    <div class="flex-shrink max-w-full px-4 w-full sm:w-3/4 md:w-4/6">
+
+                        <p class="text-lg leading-normal mb-2 font-semibold text-gray-800 dark:text-gray-100">
+                            <a href="{% url 'author' news.author.id %}">
+                                {{ news.author.username }}
+                            </a>
+                        </p>
+
+                        {% if news.author.profile.job %}
+                            <p class="mb-1">{{ news.author.profile.job }}</p>
+                        {% endif %}
+
+                        {% if news.author.profile.bio %}
+                            <p>{{ news.author.profile.bio }}</p>
+                        {% endif %}
+
+                    </div>
+
                 </div>
 
                 <!-- Comments -->
                 <div id="comments" class="pt-16">
                   <!--title-->
-                  <h3 class="text-2xl leading-normal mb-2 font-semibold text-gray-800 dark:text-gray-100">5 Comments</h3>
+                  <h3 class="text-2xl leading-normal mb-2 font-semibold text-gray-800 dark:text-gray-100">
+                      {{ news.comments.count }} Comments
+                  </h3>
 
-                  <!--comment list-->
-                  <ol class="mb-4">
+                <!--comment list-->
+                <ol class="mb-4">
+                    {% for comment in news.comments.all %}
                     <li class="py-2 mt-6">
-                      <div class="pb-4 border-b border-gray-200 dark:border-gray-600 border-dashed">
-                        <footer>
-                          <img class="w-20 h-20 border border-gray-200 dark:border-gray-700 max-w-full float-left mr-4" src="src/img/avatar2.jpg" alt="avatar">
-                          <div>
-                            <a class="text-lg leading-normal mb-2 font-semibold text-gray-800 dark:text-gray-100" href="#" target="_blank">Carlos vila</a>
-                            <span class="md:float-right text-sm">
-                              <time datetime="2020-10-27">Oct 27, 2020</time>
-                            </span>
-                          </div>
-                        </footer>
-                        <div>
-                          <p>I like this themes, fast loading and look profesional</p>
-                        </div>
-                        <div>
-                          <a class="text-red-700 hover:text-red-800" href="#comment-form">Reply</a>
-                        </div>
-                      </div>
-                      <ul class="ml-12 md:ml-24">
-                        <li class="py-2 mt-6">
-                          <div class="pb-4 border-b border-gray-200 dark:border-gray-600 border-dashed">
+                        <div class="pb-4 border-b border-gray-200 dark:border-gray-600 border-dashed">
                             <footer>
-                              <img class="w-20 h-20 border border-gray-200 dark:border-gray-700 max-w-full float-left mr-4" src="src/img/avatar.jpg" alt="avatar">
-                              <div>
-                                <a class="text-lg leading-normal mb-2 font-semibold text-gray-800 dark:text-gray-100" href="#" target="_blank">Ari Budin</a>
-                                <span class="md:float-right text-sm">
-                                  <time datetime="2020-10-27">Oct 27, 2020</time>
-                                </span>
-                              </div>
-                            </footer>
-                            <div>
-                              <p>Thank you Carlos!</p>
-                            </div>
-                            <div>
-                              <a class="text-red-700 hover:text-red-800" href="#comment-form">Reply</a>
-                            </div>
-                          </div>
-                          <ul class="md:ml-24">
-                            <li class="py-2 mt-6" id="comment-5">
-                              <div class="pb-4 border-b border-gray-200 dark:border-gray-600 border-dashed">
-                                <footer>
-                                  <img class="w-20 h-20 border border-gray-200 dark:border-gray-700 max-w-full float-left mr-4" src="src/img/avatar2.jpg" alt="avatar">
-                                  <div>
-                                    <a class="text-lg leading-normal mb-2 font-semibold text-gray-800 dark:text-gray-100" href="#" target="_blank">Carlos vila</a>
-                                    <span class="md:float-right text-sm">
-                                      <time datetime="2020-10-27">Oct 27, 2020</time>
+                            <svg class="w-20 h-20 border border-gray-200 dark:border-gray-700 rounded-full float-left mr-4"
+                                            viewBox="0 0 100 100"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <circle cx="50" cy="50" r="50" fill="#f3f4f6"/>
+                                            <circle cx="50" cy="38" r="18" fill="#9ca3af"/>
+                                            <path d="M20 85c5-20 18-30 30-30s25 10 30 30" fill="#9ca3af"/>
+                                        </svg>
+                                <div>
+                                    <span class="text-lg leading-normal mb-2 font-semibold text-gray-800 dark:text-gray-100">
+                                        {{ comment.name }}
                                     </span>
-                                  </div>
-                                </footer>
-                                <div>
-                                  <p>You're welcome!</p>
+
+                                    <span class="md:float-right text-sm">
+                                        <time>{{ comment.created_at|date:"M d, Y" }}</time>
+                                    </span>
                                 </div>
-                                <div>
-                                  <a class="text-red-700 hover:text-red-800" href="#comment-form">Reply</a>
-                                </div>
-                              </div>
-                            </li>
-                          </ul>
-                        </li>
-                      </ul>
-                    </li>
-                    <li class="py-2 mt-6">
-                      <div class="pb-4 border-b border-gray-200 dark:border-gray-600 border-dashed">
-                        <footer>
-                          <img class="w-20 h-20 border border-gray-200 dark:border-gray-700 max-w-full float-left mr-4" src="src/img/avatar.jpg" alt="avatar">
-                          <div>
-                            <a class="text-lg leading-normal mb-2 font-semibold text-gray-800 dark:text-gray-100" href="#" target="_blank">Ari Budin</a>
-                            <span class="md:float-right text-sm">
-                              <time datetime="2020-10-27">Oct 27, 2020</time>
-                            </span>
-                          </div>
-                        </footer>
-                        <div>
-                          <p>Please support me with give positive rating!</p>
-                        </div>
-                        <div>
-                          <a class="text-red-700 hover:text-red-800" href="#comment-form">Reply</a>
-                        </div>
-                      </div>
-                      <ul class="ml-12 md:ml-24">
-                        <li class="py-2 mt-6">
-                          <div class="pb-4 border-b border-gray-200 dark:border-gray-600 border-dashed">
-                            <footer>
-                              <img class="w-20 h-20 border border-gray-200 dark:border-gray-700 max-w-full float-left mr-4" src="src/img/avatar2.jpg" alt="avatar">
-                              <div>
-                                <a class="text-lg leading-normal mb-2 font-semibold text-gray-800 dark:text-gray-100" href="#" target="_blank">Carlos vila</a>
-                                <span class="md:float-right text-sm">
-                                  <time datetime="2020-10-27">Oct 27, 2020</time>
-                                </span>
-                              </div>
                             </footer>
+
                             <div>
-                              <p>Yes Sure!</p>
+                                <p>{{ comment.text }}</p>
                             </div>
+
                             <div>
-                              <a class="text-red-700 hover:text-red-800" href="#comment-form">Reply</a>
+                                <a class="text-red-700 hover:text-red-800" href="#comment-form">Reply</a>
                             </div>
-                          </div>
-                        </li>
-                      </ul>
+                        </div>
                     </li>
-                  </ol>
+                    {% empty %}
+                    <li class="py-2 mt-6">
+                        <p class="text-gray-500">No comments yet.</p>
+                    </li>
+                    {% endfor %}
+                </ol>
 
                   <!--comment form-->
                   <div id="comment-form" class="mt-12">
                     <h4 class="text-2xl leading-normal mb-2 font-semibold text-gray-800 dark:text-gray-100">LEAVE A REPLY</h4>
                     <p class="mb-5">Your email address will not be published</p>
                     <div>
-                      <form action="#" novalidate="">
+                      <form method="post" action="">
+                      {% csrf_token %}
                         <div class="mt-2"></div>
                         <div class="mb-6">
-                          <textarea class="w-full leading-5 relative py-3 px-5 text-gray-800 bg-white border border-gray-100 overflow-x-auto focus:outline-none focus:border-gray-400 focus:ring-0 dark:text-gray-400 dark:bg-gray-700 dark:border-gray-700 dark:focus:border-gray-600" placeholder="Comment" aria-label="insert comment" rows="4" required=""></textarea>
-                        </div>
+                        <textarea name="text"
+                            class="w-full leading-5 relative py-3 px-5 text-gray-800 bg-white border border-gray-100 overflow-x-auto focus:outline-none focus:border-gray-400 focus:ring-0 dark:text-gray-400 dark:bg-gray-700 dark:border-gray-700 dark:focus:border-gray-600"
+                            placeholder="Comment"
+                            aria-label="insert comment"
+                            rows="4"
+                            required></textarea>                        
+                          </div>
                         <div class="mb-6">
-                          <input class="w-full leading-5 relative py-3 px-5 text-gray-800 bg-white border border-gray-100 overflow-x-auto focus:outline-none focus:border-gray-400 focus:ring-0 dark:text-gray-400 dark:bg-gray-700 dark:border-gray-700 dark:focus:border-gray-600" placeholder="Name" aria-label="name" type="text" required="">
-                        </div>
+                        <input
+                            name="name"
+                            class="w-full leading-5 relative py-3 px-5 text-gray-800 bg-white border border-gray-100 overflow-x-auto focus:outline-none focus:border-gray-400 focus:ring-0 dark:text-gray-400 dark:bg-gray-700 dark:border-gray-700 dark:focus:border-gray-600"
+                            placeholder="Name"
+                            aria-label="name"
+                            type="text"
+                            required>                        
+                          </div>
                         <div class="mb-6">
-                          <input class="w-full leading-5 relative py-3 px-5 text-gray-800 bg-white border border-gray-100 overflow-x-auto focus:outline-none focus:border-gray-400 focus:ring-0 dark:text-gray-400 dark:bg-gray-700 dark:border-gray-700 dark:focus:border-gray-600" placeholder="Email" aria-label="email" type="text" required="">
-                        </div>
+                        <input
+                            name="email"
+                            class="w-full leading-5 relative py-3 px-5 text-gray-800 bg-white border border-gray-100 overflow-x-auto focus:outline-none focus:border-gray-400 focus:border-gray-400 focus:ring-0 dark:text-gray-400 dark:bg-gray-700 dark:border-gray-700 dark:focus:border-gray-600"
+                            placeholder="Email"
+                            aria-label="email"
+                            type="email"
+                            required>                        
+                          </div>
                         <div class="mb-6">
                           <input class="w-full leading-5 relative py-3 px-5 text-gray-800 bg-white border border-gray-100 overflow-x-auto focus:outline-none focus:border-gray-400 focus:ring-0 dark:text-gray-400 dark:bg-gray-700 dark:border-gray-700 dark:focus:border-gray-600" placeholder="Website:" aria-label="website" type="text">
                         </div>
@@ -298,21 +273,14 @@ License: You must have a valid license from official store to legally use the th
                   <h2 class="text-lg font-bold">Most Popular</h2>
                 </div>
                 <ul class="post-number">
-                  <li class="border-b border-gray-100 hover:bg-gray-50">
-                    <a class="text-lg font-bold px-6 py-3 flex flex-row items-center" href="#">Why the world would end without political polls</a>
-                  </li>
-                  <li class="border-b border-gray-100 hover:bg-gray-50">
-                    <a class="text-lg font-bold px-6 py-3 flex flex-row items-center" href="#">Meet The Man Who Designed The Ducati Monster</a>
-                  </li>
-                  <li class="border-b border-gray-100 hover:bg-gray-50">
-                    <a class="text-lg font-bold px-6 py-3 flex flex-row items-center" href="#">2020 Audi R8 Spyder spy shots release</a>
-                  </li>
-                  <li class="border-b border-gray-100 hover:bg-gray-50">
-                    <a class="text-lg font-bold px-6 py-3 flex flex-row items-center" href="#">Lamborghini makes Huracán GT3 racer faster for 2019</a>
-                  </li>
-                  <li class="border-b border-gray-100 hover:bg-gray-50">
-                    <a class="text-lg font-bold px-6 py-3 flex flex-row items-center" href="#">ZF plans $14 billion autonomous vehicle push, concept van</a>
-                  </li>
+                {% for item in popular_news|slice:":5" %}
+                <li class="border-b border-gray-100 hover:bg-gray-50">
+                    <a class="text-lg font-bold px-6 py-3 flex flex-row items-center whitespace-nowrap overflow-hidden"
+                      href="{% url 'news_detail' item.id %}">
+                        {{ item.title|truncatewords:8 }}
+                    </a>
+                </li>
+                {% endfor %}
                 </ul>
               </div>
             </div>
