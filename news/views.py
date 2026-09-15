@@ -119,3 +119,12 @@ def search(request):
         'popular_news': popular_news,
         'query': query,
     })
+
+def about(request):
+    categories = Category.objects.all()
+    popular_news = News.objects.all().order_by('-created_at')
+
+    return render(request, 'page.html', {
+        'categories': categories,
+        'popular_news': popular_news,
+    })
