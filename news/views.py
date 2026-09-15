@@ -1,5 +1,6 @@
 from django.shortcuts import render
-from .models import News, Category, Comment
+from .models import News, Category, Comment, Contact
+from django.db.models import Q
 
 
 def home(request):
@@ -71,4 +72,50 @@ def author(request, id):
         'profile': user.profile,
         'news': news,
         'categories': categories,
+    })
+
+def contact(request):
+    categories = Category.objects.all()
+    popular_news = News.objects.all().order_by('-created_at')
+
+    if request.method == 'POST':
+        first_name = request.POST.get('first_name')
+        last_name = request.POST.get('last_name')
+        email = request.POST.get('email')
+        urgency = request.POST.get('urgency')
+        message = request.POST.get('message')
+
+        if first_name and last_name and email and urgency and message:
+            Contact.objects.create(
+                first_name=first_name,
+                last_name=last_name,
+                email=email,
+                urgency=urgency,
+                message=message,
+            )
+
+    return render(request, 'contact-us.html', {
+        'categories': categories,
+        'popular_news': popular_news,
+    })
+
+def search(request):
+    query = request.GET.get('q', '')
+
+    news = News.objects.all().order_by('-created_at')
+
+    if query:
+        news = news.filter(
+            Q(title__icontains=query) |
+            Q(description__icontains=query)
+        )
+
+    categories = Category.objects.all()
+    popular_news = News.objects.all().order_by('-created_at')
+
+    return render(request, 'search.html', {
+        'news': news,
+        'categories': categories,
+        'popular_news': popular_news,
+        'query': query,
     })
