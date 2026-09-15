@@ -20,7 +20,7 @@ License: You must have a valid license from official store to legally use the th
   <meta name="description" content="Tailwind CSS News Template">
 
   <!-- Development css -->
-  <link rel="stylesheet" href="src/css/style.css">
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
 
   <!-- Production css -->
   <!-- <link rel="stylesheet" href="dist/css/style.css"> -->
@@ -66,17 +66,22 @@ License: You must have a valid license from official store to legally use the th
                 <div class="p-4 border border-gray-100 bg-white mb-4">
                   <div class="flex flex-row items-center">
                     <div class="rounded-full overflow-hidden">
-                      <a href="#"><img class="border max-w-full w-20 sm:w-32" src="src/img/dummy/avatar.jpg" alt="author"></a>
+                      <a href="#">{% if profile.image %}
+                      <img class="border max-w-full w-20 sm:w-32" src="{{ profile.image.url }}" alt="{{ user.username }}">
+                      {% else %}
+                      <img class="border max-w-full w-20 sm:w-32" src="{% static 'img/dummy/avatar.jpg' %}" alt="{{ user.username }}">
+                      {% endif %}
+                    </a>
                     </div>
                     <div class="ml-8">
                       <!--name-->
                       <h4 class="text-2xl">
-                        <span class="font-bold">Ari budin</span>
+                        <span class="font-bold">{{ user.username }}</span>
                       </h4>
                       <!-- website -->
-                      <p><a class="hover:text-blue-500" rel="noopener" href="#!">https://aribudin.com</a></p>
+                      <p><a class="hover:text-blue-500" rel="noopener" href="#!">{{ profile.job }}</a></p>
                       <!--description-->
-                      <p class="hidden sm:block">Programmer, Father, Husband, I design and develop Tailwind template, founder of Tailnet</p>
+                      <p class="hidden sm:block">{{ profile.bio }}</p>
                       <!--social-->
                       <div class="mt-2">
                         <ul class="space-x-3">
@@ -119,96 +124,40 @@ License: You must have a valid license from official store to legally use the th
               <div class="flex-shrink max-w-full w-full px-3">
                 <div class="w-full py-3">
                   <h2 class="text-gray-800 text-2xl font-bold">
-                    <span class="inline-block h-5 border-l-3 border-red-600 mr-2"></span> Post by Ari Budin
+                    <span class="inline-block h-5 border-l-3 border-red-600 mr-2"></span> Post by {{ user.username }}
                   </h2>
                 </div>
               </div>
 
+              {% for item in news %}
               <div class="flex-shrink max-w-full w-full sm:w-1/3 px-3 pb-3 pt-3 sm:pt-0 border-b-2 sm:border-b-0 border-dotted border-gray-100">
                 <div class="flex flex-row sm:block hover-img">
-                  <a href="">
-                    <img class="max-w-full w-full mx-auto" src="src/img/dummy/img6.jpg" alt="alt title">
+                  <a href="{% url 'news_detail' item.id %}">
+                    <img class="max-w-full w-full mx-auto"
+                        src="{{ item.image.url }}"
+                        alt="{{ item.title }}">
                   </a>
+
                   <div class="py-0 sm:py-3 pl-3 sm:pl-0">
                     <h3 class="text-lg font-bold leading-tight mb-2">
-                      <a href="#">5 Tips to Save Money Booking Your Next Hotel Room</a>
+                      <a href="{% url 'news_detail' item.id %}">
+                        {{ item.title }}
+                      </a>
                     </h3>
-                    <p class="hidden md:block text-gray-600 leading-tight mb-1">This is a wider card with supporting text below as a natural lead-in to additional content.</p>
-                    <a class="text-gray-500" href="#"><span class="inline-block h-3 border-l-2 border-red-600 mr-2"></span>Europe</a>
+
+                    <p class="hidden md:block text-gray-600 leading-tight mb-1">
+                      {{ item.description|striptags|truncatewords:15 }}
+                    </p>
+
+                    <a class="text-gray-500" href="#">
+                      <span class="inline-block h-3 border-l-2 border-red-600 mr-2"></span>
+                      {{ item.category.name }}
+                    </a>
                   </div>
                 </div>
               </div>
-              <div class="flex-shrink max-w-full w-full sm:w-1/3 px-3 pb-3 pt-3 sm:pt-0 border-b-2 sm:border-b-0 border-dotted border-gray-100">
-                <div class="flex flex-row sm:block hover-img">
-                  <a href="">
-                    <img class="max-w-full w-full mx-auto" src="src/img/dummy/img7.jpg" alt="alt title">
-                  </a>
-                  <div class="py-0 sm:py-3 pl-3 sm:pl-0">
-                    <h3 class="text-lg font-bold leading-tight mb-2">
-                      <a href="#">5 Tips to Save Money Booking Your Next Hotel Room</a>
-                    </h3>
-                    <p class="hidden md:block text-gray-600 leading-tight mb-1">This is a wider card with supporting text below as a natural lead-in to additional content.</p>
-                    <a class="text-gray-500" href="#"><span class="inline-block h-3 border-l-2 border-red-600 mr-2"></span>Europe</a>
-                  </div>
-                </div>
+              {% endfor %}
               </div>
-              <div class="flex-shrink max-w-full w-full sm:w-1/3 px-3 pb-3 pt-3 sm:pt-0 border-b-2 sm:border-b-0 border-dotted border-gray-100">
-                <div class="flex flex-row sm:block hover-img">
-                  <a href="">
-                    <img class="max-w-full w-full mx-auto" src="src/img/dummy/img8.jpg" alt="alt title">
-                  </a>
-                  <div class="py-0 sm:py-3 pl-3 sm:pl-0">
-                    <h3 class="text-lg font-bold leading-tight mb-2">
-                      <a href="#">5 Tips to Save Money Booking Your Next Hotel Room</a>
-                    </h3>
-                    <p class="hidden md:block text-gray-600 leading-tight mb-1">This is a wider card with supporting text below as a natural lead-in to additional content.</p>
-                    <a class="text-gray-500" href="#"><span class="inline-block h-3 border-l-2 border-red-600 mr-2"></span>Europe</a>
-                  </div>
-                </div>
-              </div>
-              <div class="flex-shrink max-w-full w-full sm:w-1/3 px-3 pb-3 pt-3 sm:pt-0 border-b-2 sm:border-b-0 border-dotted border-gray-100">
-                <div class="flex flex-row sm:block hover-img">
-                  <a href="">
-                    <img class="max-w-full w-full mx-auto" src="src/img/dummy/img9.jpg" alt="alt title">
-                  </a>
-                  <div class="py-0 sm:py-3 pl-3 sm:pl-0">
-                    <h3 class="text-lg font-bold leading-tight mb-2">
-                      <a href="#">5 Tips to Save Money Booking Your Next Hotel Room</a>
-                    </h3>
-                    <p class="hidden md:block text-gray-600 leading-tight mb-1">This is a wider card with supporting text below as a natural lead-in to additional content.</p>
-                    <a class="text-gray-500" href="#"><span class="inline-block h-3 border-l-2 border-red-600 mr-2"></span>Europe</a>
-                  </div>
-                </div>
-              </div>
-              <div class="flex-shrink max-w-full w-full sm:w-1/3 px-3 pb-3 pt-3 sm:pt-0 border-b-2 sm:border-b-0 border-dotted border-gray-100">
-                <div class="flex flex-row sm:block hover-img">
-                  <a href="">
-                    <img class="max-w-full w-full mx-auto" src="src/img/dummy/img10.jpg" alt="alt title">
-                  </a>
-                  <div class="py-0 sm:py-3 pl-3 sm:pl-0">
-                    <h3 class="text-lg font-bold leading-tight mb-2">
-                      <a href="#">5 Tips to Save Money Booking Your Next Hotel Room</a>
-                    </h3>
-                    <p class="hidden md:block text-gray-600 leading-tight mb-1">This is a wider card with supporting text below as a natural lead-in to additional content.</p>
-                    <a class="text-gray-500" href="#"><span class="inline-block h-3 border-l-2 border-red-600 mr-2"></span>Europe</a>
-                  </div>
-                </div>
-              </div>
-              <div class="flex-shrink max-w-full w-full sm:w-1/3 px-3 pb-3 pt-3 sm:pt-0 border-b-2 sm:border-b-0 border-dotted border-gray-100">
-                <div class="flex flex-row sm:block hover-img">
-                  <a href="">
-                    <img class="max-w-full w-full mx-auto" src="src/img/dummy/img11.jpg" alt="alt title">
-                  </a>
-                  <div class="py-0 sm:py-3 pl-3 sm:pl-0">
-                    <h3 class="text-lg font-bold leading-tight mb-2">
-                      <a href="#">5 Tips to Save Money Booking Your Next Hotel Room</a>
-                    </h3>
-                    <p class="hidden md:block text-gray-600 leading-tight mb-1">This is a wider card with supporting text below as a natural lead-in to additional content.</p>
-                    <a class="text-gray-500" href="#"><span class="inline-block h-3 border-l-2 border-red-600 mr-2"></span>Europe</a>
-                  </div>
-                </div>
-              </div>
-            </div>
             <div class="text-center mt-4">
               <!-- center pagination -->
               <nav aria-label="Page navigation">
@@ -238,22 +187,15 @@ License: You must have a valid license from official store to legally use the th
                   <h2 class="text-lg font-bold">Most Popular</h2>
                 </div>
                 <ul class="post-number">
-                  <li class="border-b border-gray-100 hover:bg-gray-50">
-                    <a class="text-lg font-bold px-6 py-3 flex flex-row items-center" href="#">Why the world would end without political polls</a>
-                  </li>
-                  <li class="border-b border-gray-100 hover:bg-gray-50">
-                    <a class="text-lg font-bold px-6 py-3 flex flex-row items-center" href="#">Meet The Man Who Designed The Ducati Monster</a>
-                  </li>
-                  <li class="border-b border-gray-100 hover:bg-gray-50">
-                    <a class="text-lg font-bold px-6 py-3 flex flex-row items-center" href="#">2020 Audi R8 Spyder spy shots release</a>
-                  </li>
-                  <li class="border-b border-gray-100 hover:bg-gray-50">
-                    <a class="text-lg font-bold px-6 py-3 flex flex-row items-center" href="#">Lamborghini makes Huracán GT3 racer faster for 2019</a>
-                  </li>
-                  <li class="border-b border-gray-100 hover:bg-gray-50">
-                    <a class="text-lg font-bold px-6 py-3 flex flex-row items-center" href="#">ZF plans $14 billion autonomous vehicle push, concept van</a>
-                  </li>
-                </ul>
+                {% for item in news|slice:":5" %}
+                <li class="border-b border-gray-100 hover:bg-gray-50">
+                  <a class="text-lg font-bold px-6 py-3 flex flex-row items-center whitespace-nowrap overflow-hidden"
+                    href="{% url 'news_detail' item.id %}">
+                    {{ item.title|truncatewords:8 }}
+                  </a>
+                </li>
+                {% endfor %}
+              </ul>
               </div>
             </div>
 

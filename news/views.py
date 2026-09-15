@@ -41,3 +41,17 @@ def category(request, id):
         'categories': categories,
         'current_category': current_category,
     })
+
+def author(request, id):
+    from django.contrib.auth.models import User
+
+    user = User.objects.get(id=id)
+    news = News.objects.filter(author=user).order_by('-created_at')
+    categories = Category.objects.all()
+
+    return render(request, 'author.html', {
+        'user': user,
+        'profile': user.profile,
+        'news': news,
+        'categories': categories,
+    })
