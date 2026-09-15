@@ -34,8 +34,10 @@ def news_detail(request, id):
 def category(request, id):
     news = News.objects.filter(category_id=id).order_by('-created_at')
     categories = Category.objects.all()
+    current_category = Category.objects.get(id=id)
 
     return render(request, 'category.html', {
         'news': news,
         'categories': categories,
+        'current_category': current_category,
     })
